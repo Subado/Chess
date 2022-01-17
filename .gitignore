@@ -6,6 +6,10 @@
 *.lo
 *.o
 *.obj
+build/
+CMakeFiles/
+CMakeCache.txt
+*.sh
 
 # Precompiled Headers
 *.gch
