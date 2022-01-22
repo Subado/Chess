@@ -1,10 +1,29 @@
 #include <SFML/Graphics.hpp>
+#include <vector>
+#include <memory>
+
+#pragma once
 
 class Piece
 {
-	sf::Texture texture;
-public:
+protected:
+	sf::Texture *const texture;
 	sf::Sprite sprite;
-	Piece(const sf::Vector2f &scale, const std::string &img, const sf::Vector2f &position, const double &k);
-	void move(const sf::Vector2f &position, const double &k);
+	sf::Vector2u position;
+	sf::Vector2i direction;
+	uint8_t team;
+	std::vector<sf::Vector2u> possibleMoves;
+
+	virtual void calculatePossibleMoves(const std::vector<std::unique_ptr<Piece>> &pieces) = 0;
+public:
+	Piece(sf::Texture *texture, const sf::Vector2f &scale, const sf::Vector2u &position, const float &k, const sf::Vector2i &direction, uint8_t team);
+
+	const sf::Sprite &getSprite() const { return sprite; }
+	const sf::Vector2u &getPosition() const { return position; }
+	uint8_t getTeam() const { return team; }
+	std::vector<sf::Vector2u> getPossibleMoves() { return possibleMoves; };
+
+	virtual void move(const std::vector<std::unique_ptr<Piece>> &pieces, const sf::Vector2u &position, const float &k) = 0;
+
+	virtual ~Piece() {}
 };

@@ -1,14 +1,9 @@
 #include "Piece.h"
 
-Piece::Piece(const sf::Vector2f &scale, const std::string &img, const sf::Vector2f &position, const double &k)
+Piece::Piece(sf::Texture *texture, const sf::Vector2f &scale, const sf::Vector2u &position, const float &k, const sf::Vector2i &direction, uint8_t team)
+	: position(position), direction(direction), team(team), texture(texture)
 {
-	texture.loadFromFile(img);
-	sprite.setTexture(texture);
+	sprite.setTexture(*this->texture);
 	sprite.setScale(scale);
-	sprite.setPosition(position.x*k, position.y*k);
-}
-
-void Piece::move(const sf::Vector2f &position, const double &k)
-{
 	sprite.setPosition(position.x*k, position.y*k);
 }
