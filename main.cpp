@@ -9,7 +9,7 @@
 int main()
 {
     // create the window
-    sf::RenderWindow window(sf::VideoMode(700, 700), "Chess on C++");
+	sf::RenderWindow window(sf::VideoMode(700, 700), "Chess on C++");
 	window.setFramerateLimit(60);
 
 	sf::Texture boardTexture;
@@ -32,15 +32,15 @@ int main()
 
 	std::unique_ptr<Piece> *selectedPiece = nullptr;
 	std::vector<std::unique_ptr<Piece>> pieces;
-	pieces.push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(6, 5), k, sf::Vector2i(1, 1), 0, pieces)));
 	pieces.push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(7, 6), k, sf::Vector2i(1, 1), 0, pieces)));
+	pieces.push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(6, 5), k, sf::Vector2i(1, 1), 0, pieces)));
 
-    // run the program as long as the window is open
-    while (window.isOpen())
-    {
-        // check all the window's events that were triggered since the last iteration of the loop
-        sf::Event event;
-        while (window.pollEvent(event))
+	// run the program as long as the window is open
+	while (window.isOpen())
+	{
+		// check all the window's events that were triggered since the last iteration of the loop
+		sf::Event event;
+		while (window.pollEvent(event))
         {
 			switch (event.type)
 			{
@@ -73,10 +73,10 @@ int main()
 			}
 		}
 
-        // clear the window with black color
-        window.clear();
-        // draw everything here...
-        window.draw(boardSprite);
+		// clear the window with black color
+		window.clear();
+		// draw everything here...
+		window.draw(boardSprite);
 		for (auto &i : pieces)
 		{
 			window.draw(i->getSprite());
@@ -95,8 +95,8 @@ int main()
 		std::cout << "Window size: x=" << window.getSize().x << " y=" << window.getSize().y << '\n';
 		std::cout << "selectedPiece=" << selectedPiece << '\n';
 
-        // end the current frame
-        window.display();
+		// end the current frame
+		window.display();
     }
 
 	return 0;
