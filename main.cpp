@@ -1,10 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
+#include <cmath>
 #include <array>
 #include <memory>
 #include "Piece.h"
 #include "Pawn.h"
+
+#define DEBUG
 
 int main()
 {
@@ -31,9 +34,10 @@ int main()
 	const float k = boardSprite.getGlobalBounds().width/8;
 
 	std::unique_ptr<Piece> *selectedPiece = nullptr;
-	std::vector<std::unique_ptr<Piece>> pieces;
-	pieces.push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(7, 6), k, sf::Vector2i(1, 1), 0, pieces)));
-	pieces.push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(6, 5), k, sf::Vector2i(1, 1), 0, pieces)));
+	std::vector<std::vector<std::unique_ptr<Piece>>> pieces;
+	pieces.push_back(std::vector<std::unique_ptr<Piece>>());
+	pieces[0].push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(7, 6), k, 0, sf::Vector2i(0, -1), pieces)));
+	pieces[0].push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(6, 5), k, 0, sf::Vector2i(0, -1), pieces)));
 
 	// run the program as long as the window is open
 	while (window.isOpen())
@@ -57,7 +61,11 @@ int main()
 				{
 					if (event.mouseButton.button == sf::Mouse::Left)
 					{
-						for (auto &i : pieces)
+						if (selectedPiece)
+						{
+							(*selectedPiece)->move(pieces, sf::Vector2u(trunc(event.mouseButton.x / k), trunc(event.mouseButton.y / k)), k);
+						}
+						for (auto &i : pieces[0])
 						{
 							if ((event.mouseButton.x >= i->getSprite().getPosition().x && event.mouseButton.x <= i->getSprite().getPosition().x + i->getSprite().getGlobalBounds().width) &&
 									(event.mouseButton.y >= i->getSprite().getPosition().y && event.mouseButton.y <= i->getSprite().getPosition().y + i->getSprite().getGlobalBounds().height))
@@ -79,7 +87,10 @@ int main()
 		window.draw(boardSprite);
 		for (auto &i : pieces)
 		{
-			window.draw(i->getSprite());
+			for (auto &j : i)
+			{
+				window.draw(j->getSprite());
+			}
 		}
 		if (selectedPiece)
 		{
@@ -91,7 +102,7 @@ int main()
 			}
 		}
 		std::cout << "Bounds=" << boardSprite.getGlobalBounds().top << '\n';
-		std::cout << "Pawn: x=" << pieces[0]->getSprite().getPosition().x << " y=" << pieces[0]->getSprite().getPosition().y << '\n';
+		std::cout << "Pawn: x=" << pieces[0][0]->getSprite().getPosition().x << " y=" << pieces[0][0]->getSprite().getPosition().y << '\n';
 		std::cout << "Window size: x=" << window.getSize().x << " y=" << window.getSize().y << '\n';
 		std::cout << "selectedPiece=" << selectedPiece << '\n';
 
