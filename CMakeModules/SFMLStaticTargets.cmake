@@ -51,44 +51,50 @@ if(_IMPORT_PREFIX STREQUAL "/")
 endif()
 
 # Create imported target sfml-system
-add_library(sfml-system SHARED IMPORTED)
+add_library(sfml-system STATIC IMPORTED)
 
 set_target_properties(sfml-system PROPERTIES
+  INTERFACE_COMPILE_DEFINITIONS "SFML_STATIC"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
+  INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:winmm>"
 )
 
 # Create imported target sfml-main
 add_library(sfml-main STATIC IMPORTED)
 
 set_target_properties(sfml-main PROPERTIES
+  INTERFACE_COMPILE_DEFINITIONS "SFML_STATIC"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
 )
 
 # Create imported target sfml-window
-add_library(sfml-window SHARED IMPORTED)
+add_library(sfml-window STATIC IMPORTED)
 
 set_target_properties(sfml-window PROPERTIES
+  INTERFACE_COMPILE_DEFINITIONS "SFML_STATIC"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "sfml-system"
+  INTERFACE_LINK_LIBRARIES "sfml-system;\$<LINK_ONLY:OpenGL>;\$<LINK_ONLY:winmm>;\$<LINK_ONLY:gdi32>"
 )
 
 # Create imported target OpenGL
 add_library(OpenGL INTERFACE IMPORTED)
 
 # Create imported target sfml-network
-add_library(sfml-network SHARED IMPORTED)
+add_library(sfml-network STATIC IMPORTED)
 
 set_target_properties(sfml-network PROPERTIES
+  INTERFACE_COMPILE_DEFINITIONS "SFML_STATIC"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "sfml-system"
+  INTERFACE_LINK_LIBRARIES "sfml-system;\$<LINK_ONLY:ws2_32>"
 )
 
 # Create imported target sfml-graphics
-add_library(sfml-graphics SHARED IMPORTED)
+add_library(sfml-graphics STATIC IMPORTED)
 
 set_target_properties(sfml-graphics PROPERTIES
+  INTERFACE_COMPILE_DEFINITIONS "SFML_STATIC"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "sfml-window"
+  INTERFACE_LINK_LIBRARIES "sfml-window;\$<LINK_ONLY:OpenGL>;\$<LINK_ONLY:Freetype>"
 )
 
 # Create imported target Freetype
@@ -112,11 +118,12 @@ set_target_properties(FLAC PROPERTIES
 )
 
 # Create imported target sfml-audio
-add_library(sfml-audio SHARED IMPORTED)
+add_library(sfml-audio STATIC IMPORTED)
 
 set_target_properties(sfml-audio PROPERTIES
+  INTERFACE_COMPILE_DEFINITIONS "SFML_STATIC"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "sfml-system"
+  INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:OpenAL>;sfml-system;\$<LINK_ONLY:Vorbis>;\$<LINK_ONLY:FLAC>"
 )
 
 if(CMAKE_VERSION VERSION_LESS 3.0.0)
@@ -125,7 +132,7 @@ endif()
 
 # Load information for each installed configuration.
 get_filename_component(_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
-file(GLOB CONFIG_FILES "${_DIR}/SFMLSharedTargets-*.cmake")
+file(GLOB CONFIG_FILES "${_DIR}/SFMLStaticTargets-*.cmake")
 foreach(f ${CONFIG_FILES})
   include(${f})
 endforeach()
