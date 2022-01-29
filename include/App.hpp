@@ -1,15 +1,15 @@
 #ifndef APP_HPP_
 #define APP_HPP_
 #include <SFML/Graphics.hpp>
-#include <Piece.hpp>
-#include <Pawn.hpp>
+#include <Game.hpp>
 #include <iostream>
 #include <array>
 class App
 {
-	public:
-		App();
-		void run();
+	sf::RenderWindow m_window;
+public:
+	App();
+	void run();
 };
 
 #endif // APP_HPP_

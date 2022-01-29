@@ -11,7 +11,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules")
 set(SOURCE 
 	src/main.cpp
 	src/Pawn.cpp
-	src/Piece.cpp)
+	src/Piece.cpp
+	src/Game.cpp
+	src/App.cpp)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 

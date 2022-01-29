@@ -30,11 +30,10 @@ class Game
 
 	float m_lengthOfSquare;
 
+public:
+	Game();
 	void handleEvents();
-
-	public:
-		Game();
-		void draw(sf::RenderWindow &window);
+	void draw(sf::RenderWindow &window);
 };
 
 #endif // GAME_HPP_
