@@ -1,8 +1,9 @@
+#ifndef PIECE_HPP_
+#define PIECE_HPP_
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
-
-#pragma once
 
 class Piece
 {
@@ -26,3 +27,5 @@ public:
 
 	virtual ~Piece() {}
 };
+
+#endif // PIECE_HPP_

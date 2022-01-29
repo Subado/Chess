@@ -1,5 +1,5 @@
 #include <cassert>
-#include "Pawn.h"
+#include <Pawn.hpp>
 
 void Pawn::calculatePossibleMoves(const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces)
 {

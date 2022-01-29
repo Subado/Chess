@@ -4,8 +4,8 @@
 #include <cmath>
 #include <array>
 #include <memory>
-#include "Piece.h"
-#include "Pawn.h"
+#include <Piece.hpp>
+#include <Pawn.hpp>
 
 #define DEBUG
 
@@ -15,29 +15,31 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(700, 700), "Chess on C++");
 	window.setFramerateLimit(60);
 
+	std::array<char, 64> charBoard;
+
 	sf::Texture boardTexture;
 	sf::Texture possibleMoveTexture;
 	std::array<sf::Texture, 6> textures;
 
-	textures[0].loadFromFile("resources/black-pawn.png");
-	possibleMoveTexture.loadFromFile("resources/transparent-circle.png");
-	boardTexture.loadFromFile("resources/chess-board.png");
+	textures[0].loadFromFile("assets/images/black-pawn.png");
+	possibleMoveTexture.loadFromFile("assets/images/transparent-circle.png");
+	boardTexture.loadFromFile("assets/images/chess-board.png");
 
 	sf::Sprite boardSprite;
 	boardSprite.setTexture(boardTexture);
 	boardSprite.scale(sf::Vector2f(static_cast<float>(700)/boardTexture.getSize().x, static_cast<float>(700)/boardTexture.getSize().y));
 
-	sf::Sprite possibleMove;
-	possibleMove.setTexture(possibleMoveTexture);
-	possibleMove.setScale(boardSprite.getScale());
+	sf::Sprite possibleMoveSprite;
+	possibleMoveSprite.setTexture(possibleMoveTexture);
+	possibleMoveSprite.setScale(boardSprite.getScale());
 
 	const float k = boardSprite.getGlobalBounds().width/8;
 
 	std::unique_ptr<Piece> *selectedPiece = nullptr;
 	std::vector<std::vector<std::unique_ptr<Piece>>> pieces;
 	pieces.push_back(std::vector<std::unique_ptr<Piece>>());
-	pieces[0].push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(7, 6), k, 0, sf::Vector2i(0, -1), pieces)));
 	pieces[0].push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(6, 5), k, 0, sf::Vector2i(0, -1), pieces)));
+	pieces[0].push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(7, 6), k, 0, sf::Vector2i(0, -1), pieces)));
 
 	// run the program as long as the window is open
 	while (window.isOpen())
@@ -97,8 +99,8 @@ int main()
 
 			for (auto &i : (*selectedPiece)->getPossibleMoves())
 			{
-				possibleMove.setPosition(k*i.x, k*i.y);
-				window.draw(possibleMove);
+				possibleMoveSprite.setPosition(k*i.x, k*i.y);
+				window.draw(possibleMoveSprite);
 			}
 		}
 		std::cout << "Bounds=" << boardSprite.getGlobalBounds().top << '\n';

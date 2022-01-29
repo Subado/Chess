@@ -1,6 +1,7 @@
-#include "Piece.h"
+#ifndef PAWN_HPP_
+#define PAWN_HPP_
 
-#pragma once
+#include <Piece.hpp>
 
 class Pawn : public Piece
 {
@@ -12,3 +13,5 @@ public:
 
 	bool move(const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces, const sf::Vector2u &position, const float &k) override;
 };
+
+#endif // PAWN_HPP_

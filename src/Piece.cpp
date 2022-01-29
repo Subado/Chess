@@ -1,4 +1,4 @@
-#include "Piece.h"
+#include <Piece.hpp>
 
 Piece::Piece(sf::Texture *texture, const sf::Vector2f &scale, const sf::Vector2u &position, const float &k, uint8_t team)
 	: position(position), team(team), texture(texture)

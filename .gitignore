@@ -11,6 +11,7 @@ SFML/
 CMakeFiles/
 CMakeCache.txt
 .vimspector.json
+.cache
 *.sh
 
 # Precompiled Headers
