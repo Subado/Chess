@@ -32,7 +32,7 @@ class Game
 
 public:
 	Game();
-	void handleEvents();
+	void handleEvents(const sf::Event &event);
 	void draw(sf::RenderWindow &window);
 };
 

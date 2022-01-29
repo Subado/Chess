@@ -28,10 +28,9 @@ void App::run()
                     break;
             }
         }
-		game.handleEvents();
+		game.handleEvents(event);
         m_window.clear();
 		game.draw(m_window);
         m_window.display();
-    }
-
+	}
 }

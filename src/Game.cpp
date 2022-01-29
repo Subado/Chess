@@ -1,6 +1,6 @@
 #include <Game.hpp>
 
-Game::Game() : m_selectedPiece(nullptr)
+Game::Game() : m_selectedPiece(nullptr), m_charBoard{0}
 {
 	m_textures[0].loadFromFile("assets/images/black-pawn.png");
 	m_possibleMoveTexture.loadFromFile("assets/images/transparent-circle.png");
@@ -19,18 +19,18 @@ Game::Game() : m_selectedPiece(nullptr)
 
 }
 
-void Game::handleEvents()
+void Game::handleEvents(const sf::Event &event)
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (event.MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 	{
 		if (m_selectedPiece)
 		{
-			(*m_selectedPiece)->move(m_pieces, sf::Vector2u(trunc(sf::Mouse::getPosition().x / m_lengthOfSquare), trunc(sf::Mouse::getPosition().y / m_lengthOfSquare)), m_lengthOfSquare);
+			(*m_selectedPiece)->move(m_pieces, sf::Vector2u(trunc(event.mouseButton.x / m_lengthOfSquare), trunc(event.mouseButton.y / m_lengthOfSquare)), m_lengthOfSquare);
 		}
 		for (auto &i : m_pieces[0])
 		{
-			if ((sf::Mouse::getPosition().x >= i->getSprite().getPosition().x && sf::Mouse::getPosition().x <= i->getSprite().getPosition().x + i->getSprite().getGlobalBounds().width) &&
-					(sf::Mouse::getPosition().y >= i->getSprite().getPosition().y && sf::Mouse::getPosition().y <= i->getSprite().getPosition().y + i->getSprite().getGlobalBounds().height))
+			if ((event.mouseButton.x >= i->getSprite().getPosition().x && event.mouseButton.x <= i->getSprite().getPosition().x + i->getSprite().getGlobalBounds().width) &&
+					(event.mouseButton.y >= i->getSprite().getPosition().y && event.mouseButton.y <= i->getSprite().getPosition().y + i->getSprite().getGlobalBounds().height))
 			{
 				m_selectedPiece = &i;
 			}
@@ -58,4 +58,7 @@ void Game::draw(sf::RenderWindow &window)
 			window.draw(m_possibleMoveSprite);
 		}
 	}
+		std::cout << "Pawn: x=" << m_pieces[0][0]->getSprite().getPosition().x << " y=" << m_pieces[0][0]->getSprite().getPosition().y << '\n';
+		std::cout << "Window size: x=" << window.getSize().x << " y=" << window.getSize().y << '\n';
+		std::cout << "selectedPiece=" << m_selectedPiece << '\n';
 }
