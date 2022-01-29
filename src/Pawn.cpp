@@ -5,24 +5,24 @@ void Pawn::calculatePossibleMoves(const std::vector<std::vector<std::unique_ptr<
 {
 	bool squareEmpty{true};
 
-	unsigned int x{position.x}, y{position.y};
+	unsigned int x{m_position.x}, y{m_position.y};
 
-	if (direction.x)
+	if (m_direction.x)
 	{
-		x = position.y;
-		y = position.x;
+		x = m_position.y;
+		y = m_position.x;
 	}
 
 	for (auto &i : pieces)
 	{
 		for (auto &j : i)
 		{
-			if ((sf::Vector2u(x - 1, y + direction.y) == j->getPosition()) ||
-					(sf::Vector2u(x + 1, y + direction.y) == j->getPosition()))
+			if ((sf::Vector2u(x - 1, y + m_direction.y) == j->getPosition()) ||
+					(sf::Vector2u(x + 1, y + m_direction.y) == j->getPosition()))
 			{
-				possibleMoves.push_back(j->getPosition());
+				m_possibleMoves.push_back(j->getPosition());
 			}
-			else if ((sf::Vector2u(position.x + direction.x, position.y + direction.y) == j->getPosition()))
+			else if ((sf::Vector2u(m_position.x + m_direction.x, m_position.y + m_direction.y) == j->getPosition()))
 			{
 				squareEmpty = false;
 			}
@@ -31,7 +31,7 @@ void Pawn::calculatePossibleMoves(const std::vector<std::vector<std::unique_ptr<
 
 	if (squareEmpty)
 	{
-		possibleMoves.push_back((sf::Vector2u(position.x + direction.x, position.y + direction.y)));
+		m_possibleMoves.push_back((sf::Vector2u(m_position.x + m_direction.x, m_position.y + m_direction.y)));
 	}
 
 }
@@ -42,19 +42,19 @@ Pawn::Pawn(sf::Texture *texture, const sf::Vector2f &scale, const sf::Vector2u &
 #ifdef DEBUG
 	assert("Incorrect direction" && (direction.y || direction.x) && !(direction.y && direction.x) && direction.x >= -1 && direction.x <= 1 && direction.y >= -1 && direction.y <= 1);
 #endif
-	this->direction = direction;
+	this->m_direction = direction;
 	calculatePossibleMoves(pieces);
 }
 
 bool Pawn::move(const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces, const sf::Vector2u &position, const float &k)
 {
-	for (auto &i : possibleMoves)
+	for (auto &i : m_possibleMoves)
 	{
 		if (position == i)
 		{
-			this->position = position;
-			sprite.setPosition(position.x*k, position.y*k);
-			possibleMoves.clear();
+			this->m_position = position;
+			m_sprite.setPosition(position.x*k, position.y*k);
+			m_possibleMoves.clear();
 			calculatePossibleMoves(pieces);
 			return true;
 		}

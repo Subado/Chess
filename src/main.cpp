@@ -6,7 +6,7 @@
 #include <memory>
 #include <Piece.hpp>
 #include <Pawn.hpp>
-#include <Game.hpp>
+
 #define DEBUG
 
 int main()
@@ -42,49 +42,49 @@ int main()
 	pieces[0].push_back(std::make_unique<Pawn>(Pawn(&textures[0], boardSprite.getScale(), sf::Vector2u(7, 6), k, 0, sf::Vector2i(0, -1), pieces)));
 
 	// run the program as long as the window is open
-    while (window.isOpen())
-    {
-        // check all the window's events that were triggered since the last iteration of the loop
-        sf::Event event;
-        while (window.pollEvent(event))
+	while (window.isOpen())
+	{
+		// check all the window's events that were triggered since the last iteration of the loop
+		sf::Event event;
+		while (window.pollEvent(event))
         {
-            switch (event.type)
-            {
-                case sf::Event::Closed:
-                    window.close();
-                    break;
-                case sf::Event::Resized:
-                {
-                    sf::FloatRect view(0, 0, event.size.width, event.size.height);
-                    window.setView(sf::View(view));
-                    break;
-                }
-                case sf::Event::MouseButtonPressed:
-                {
-                    if (event.mouseButton.button == sf::Mouse::Left)
-                    {
-                        if (selectedPiece)
-                        {
-                            (*selectedPiece)->move(pieces, sf::Vector2u(trunc(event.mouseButton.x / k), trunc(event.mouseButton.y / k)), k);
-                        }
-                        for (auto &i : pieces[0])
-                        {
-                            if ((event.mouseButton.x >= i->getSprite().getPosition().x && event.mouseButton.x <= i->getSprite().getPosition().x + i->getSprite().getGlobalBounds().width) &&
-                                (event.mouseButton.y >= i->getSprite().getPosition().y && event.mouseButton.y <= i->getSprite().getPosition().y + i->getSprite().getGlobalBounds().height))
-                            {
-                                selectedPiece = &i;
-                            }
-                        }
-                    }
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
+			switch (event.type)
+			{
+			case sf::Event::Closed:
+                window.close();
+				break;
+			case sf::Event::Resized:
+				{
+					sf::FloatRect view(0, 0, event.size.width, event.size.height);
+					window.setView(sf::View(view));
+					break;
+				}
+			case sf::Event::MouseButtonPressed:
+				{
+					if (event.mouseButton.button == sf::Mouse::Left)
+					{
+						if (selectedPiece)
+						{
+							(*selectedPiece)->move(pieces, sf::Vector2u(trunc(event.mouseButton.x / k), trunc(event.mouseButton.y / k)), k);
+						}
+						for (auto &i : pieces[0])
+						{
+							if ((event.mouseButton.x >= i->getSprite().getPosition().x && event.mouseButton.x <= i->getSprite().getPosition().x + i->getSprite().getGlobalBounds().width) &&
+									(event.mouseButton.y >= i->getSprite().getPosition().y && event.mouseButton.y <= i->getSprite().getPosition().y + i->getSprite().getGlobalBounds().height))
+							{
+								selectedPiece = &i;
+							}
+						}
+					}
+					break;
+				}
+			default:
+				break;
+			}
+		}
 
-// clear the window with black color
-        window.clear();
+		// clear the window with black color
+		window.clear();
 		// draw everything here...
 		window.draw(boardSprite);
 		for (auto &i : pieces)
