@@ -1,9 +1,9 @@
 #include <Piece.hpp>
 
 Piece::Piece(sf::Texture *texture, const sf::Vector2f &scale, const sf::Vector2u &position, const float &k, uint8_t team)
-	: position(position), team(team), texture(texture)
+	: m_position(position), m_teamNum(team), m_texture(texture)
 {
-	sprite.setTexture(*this->texture);
-	sprite.setScale(scale);
-	sprite.setPosition(position.x*k, position.y*k);
+	m_sprite.setTexture(*this->m_texture);
+	m_sprite.setScale(scale);
+	m_sprite.setPosition(position.x*k, position.y*k);
 }

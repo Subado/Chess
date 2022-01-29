@@ -5,7 +5,7 @@
 
 class Pawn : public Piece
 {
-	sf::Vector2i direction;
+	sf::Vector2i m_direction;
 
 	void calculatePossibleMoves(const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces) override;
 public:
