@@ -1,6 +1,6 @@
 #include <Game.hpp>
 
-Game::Game() : m_selectedPiece(nullptr), m_charBoard{0}
+Game::Game() : m_selectedPiece(nullptr)
 {
 	m_textures[0].loadFromFile("assets/images/black-pawn.png");
 	m_possibleMoveTexture.loadFromFile("assets/images/transparent-circle.png");
