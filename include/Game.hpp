@@ -17,7 +17,6 @@ namespace
 class Game
 {
 	std::array<char, 64> m_charBoard;
-
 	std::array<sf::Texture, 6> m_textures;
 	sf::Texture m_possibleMoveTexture;
 	sf::Texture m_boardTexture;
