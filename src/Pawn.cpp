@@ -36,8 +36,8 @@ void Pawn::calculatePossibleMoves(const std::vector<std::vector<std::unique_ptr<
 
 }
 
-Pawn::Pawn(sf::Texture *texture, const sf::Vector2f &scale, const sf::Vector2u &position, const float &k, uint8_t team, const sf::Vector2i &direction, const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces)
-	: Piece(texture, scale, position, k, team)
+Pawn::Pawn(const sf::Texture &texture, const sf::Vector2f &scale, const sf::Vector2u &position, const float &lengthOfSquare, uint8_t team, const sf::Vector2i &direction, const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces)
+	: Piece(texture, scale, position, lengthOfSquare, team)
 {
 #ifdef DEBUG
 	assert("Incorrect direction" && (direction.y || direction.x) && !(direction.y && direction.x) && direction.x >= -1 && direction.x <= 1 && direction.y >= -1 && direction.y <= 1);
@@ -46,14 +46,14 @@ Pawn::Pawn(sf::Texture *texture, const sf::Vector2f &scale, const sf::Vector2u &
 	calculatePossibleMoves(pieces);
 }
 
-bool Pawn::move(const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces, const sf::Vector2u &position, const float &k)
+bool Pawn::move(const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces, const sf::Vector2u &position, const float &lengthOfSquare)
 {
 	for (auto &i : m_possibleMoves)
 	{
 		if (position == i)
 		{
 			this->m_position = position;
-			m_sprite.setPosition(position.x*k, position.y*k);
+			m_sprite.setPosition(position.x*lengthOfSquare, position.y*lengthOfSquare);
 			m_possibleMoves.clear();
 			calculatePossibleMoves(pieces);
 			return true;

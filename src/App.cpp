@@ -24,11 +24,12 @@ void App::run()
                     m_window.setView(sf::View(view));
                     break;
                 }
+				case sf::Event::MouseButtonPressed:
+					game.handleMouseInput(m_window);
                 default:
                     break;
             }
         }
-		game.handleEvents(event);
         m_window.clear();
 		game.draw(m_window);
         m_window.display();

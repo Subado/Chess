@@ -2,45 +2,43 @@
 
 Game::Game() : m_selectedPiece(nullptr)
 {
-	m_textures[0].loadFromFile("assets/images/black-pawn.png");
-	m_possibleMoveTexture.loadFromFile("assets/images/transparent-circle.png");
-	m_boardTexture.loadFromFile("assets/images/chess-board.png");
-	m_boardSprite.setTexture(m_boardTexture);
-	m_boardSprite.scale(sf::Vector2f(static_cast<float>(700)/m_boardTexture.getSize().x, static_cast<float>(700)/m_boardTexture.getSize().y));
+	m_textures.load(Textures::ID::Board, "assets/images/chess-board.png");
+	m_textures.load(Textures::ID::PossibleMove, "assets/images/transparent-circle.png");
+	m_textures.load(Textures::ID::Pawn, "assets/images/black-pawn.png");
 
-	m_possibleMoveSprite.setTexture(m_possibleMoveTexture);
+	m_boardSprite.setTexture(m_textures.get(Textures::ID::Board));
+	m_boardSprite.scale(sf::Vector2f(static_cast<float>(700)/m_textures.get(Textures::ID::Board).getSize().x, static_cast<float>(700)/m_textures.get(Textures::ID::Board).getSize().y));
+
+	m_possibleMoveSprite.setTexture(m_textures.get(Textures::ID::PossibleMove));
 	m_possibleMoveSprite.setScale(m_boardSprite.getScale());
 
 	m_lengthOfSquare = m_boardSprite.getGlobalBounds().width/8;
 
 	m_pieces.push_back(std::vector<std::unique_ptr<Piece>>());
-	m_pieces[0].push_back(std::make_unique<Pawn>(Pawn(&m_textures[0], m_boardSprite.getScale(), sf::Vector2u(6, 5), m_lengthOfSquare, 0, sf::Vector2i(0, -1), m_pieces)));
-	m_pieces[0].push_back(std::make_unique<Pawn>(Pawn(&m_textures[0], m_boardSprite.getScale(), sf::Vector2u(7, 6), m_lengthOfSquare, 0, sf::Vector2i(0, -1), m_pieces)));
+	m_pieces[0].push_back(std::make_unique<Pawn>(Pawn(m_textures.get(Textures::ID::Pawn), m_boardSprite.getScale(), sf::Vector2u(6, 5), m_lengthOfSquare, 0, sf::Vector2i(0, -1), m_pieces)));
+	m_pieces[0].push_back(std::make_unique<Pawn>(Pawn(m_textures.get(Textures::ID::Pawn), m_boardSprite.getScale(), sf::Vector2u(7, 6), m_lengthOfSquare, 0, sf::Vector2i(0, -1), m_pieces)));
 
 }
 
-void Game::handleEvents(const sf::Event &event)
+void Game::handleMouseInput(const sf::RenderWindow &window)
 {
-	if (event.MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+	if (m_selectedPiece)
 	{
-		if (m_selectedPiece)
+		(*m_selectedPiece)->move(m_pieces, sf::Vector2u(trunc(sf::Mouse::getPosition(window).x / m_lengthOfSquare), trunc(sf::Mouse::getPosition(window).y / m_lengthOfSquare)), m_lengthOfSquare);
+	}
+	for (auto &i : m_pieces[0])
+	{
+		if ((sf::Mouse::getPosition(window).x >= i->getSprite().getPosition().x && sf::Mouse::getPosition(window).x <= i->getSprite().getPosition().x + i->getSprite().getGlobalBounds().width) &&
+				(sf::Mouse::getPosition(window).y >= i->getSprite().getPosition().y && sf::Mouse::getPosition(window).y <= i->getSprite().getPosition().y + i->getSprite().getGlobalBounds().height))
 		{
-			(*m_selectedPiece)->move(m_pieces, sf::Vector2u(trunc(event.mouseButton.x / m_lengthOfSquare), trunc(event.mouseButton.y / m_lengthOfSquare)), m_lengthOfSquare);
-		}
-		for (auto &i : m_pieces[0])
-		{
-			if ((event.mouseButton.x >= i->getSprite().getPosition().x && event.mouseButton.x <= i->getSprite().getPosition().x + i->getSprite().getGlobalBounds().width) &&
-					(event.mouseButton.y >= i->getSprite().getPosition().y && event.mouseButton.y <= i->getSprite().getPosition().y + i->getSprite().getGlobalBounds().height))
-			{
-				m_selectedPiece = &i;
-			}
+			m_selectedPiece = &i;
 		}
 	}
-
 }
 
 void Game::draw(sf::RenderWindow &window)
 {
+	// com
 	window.draw(m_boardSprite);
 	for (auto &i : m_pieces)
 	{

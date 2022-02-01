@@ -1,6 +1,7 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
+#include <ResourceHolder.hpp>
 #include <SFML/Graphics.hpp>
 #include <Piece.hpp>
 #include <Pawn.hpp>
@@ -10,20 +11,13 @@
 
 #define DEBUG
 
-namespace
-{
-}
-
 class Game
 {
 	std::vector<std::vector<char>> m_charBoard;
-	std::array<sf::Texture, 6> m_textures;
-	sf::Texture m_possibleMoveTexture;
-	sf::Texture m_boardTexture;
-	
+	TextureHolder m_textures;
+
 	sf::Sprite m_boardSprite;
 	sf::Sprite m_possibleMoveSprite;
-
 
 	std::vector<std::vector<std::unique_ptr<Piece>>> m_pieces;
 	std::unique_ptr<Piece> *m_selectedPiece;
@@ -32,7 +26,7 @@ class Game
 
 public:
 	Game();
-	void handleEvents(const sf::Event &event);
+	void handleMouseInput(const sf::RenderWindow &window);
 	void draw(sf::RenderWindow &window);
 };
 
