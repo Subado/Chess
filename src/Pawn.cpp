@@ -1,52 +1,50 @@
 #include <cassert>
 #include <Pawn.hpp>
 
-void Pawn::calculatePossibleMoves(const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces)
+void Pawn::calculatePossibleMoves(const std::array<std::array<BoardSquare, 8>, 8> &boardOfSquares)
 {
-	bool squareEmpty{true};
-
-	unsigned int x{m_position.x}, y{m_position.y};
+	int xOffset{m_direction.x}, yOffset{m_direction.y};
 
 	if (m_direction.x)
 	{
-		x = m_position.y;
-		y = m_position.x;
+		xOffset = m_position.y;
+		yOffset = m_position.x;
 	}
-
-	for (auto &i : pieces)
+	if (m_position.x + xOffset < 0 || m_position.x + xOffset > boardOfSquares.size() ||
+			m_position.y + yOffset < 0 || m_position.y + yOffset > boardOfSquares[0].size())
 	{
-		for (auto &j : i)
+		return;
+	}
+	else
+	{
+		if (boardOfSquares[m_position.x - 1][m_position.y + yOffset].isNotEmpty()
+				&& (*boardOfSquares[m_position.x - 1][m_position.y + yOffset]).getTeam() != m_teamNum)
 		{
-			if ((sf::Vector2u(x - 1, y + m_direction.y) == j->getPosition()) ||
-					(sf::Vector2u(x + 1, y + m_direction.y) == j->getPosition()))
-			{
-				m_possibleMoves.push_back(j->getPosition());
-			}
-			else if ((sf::Vector2u(m_position.x + m_direction.x, m_position.y + m_direction.y) == j->getPosition()))
-			{
-				squareEmpty = false;
-			}
+			m_possibleMoves.push_back(sf::Vector2u(m_position.x - 1, m_position.y + yOffset));
+		}
+		if (boardOfSquares[m_position.x + 1][m_position.y + yOffset].isNotEmpty()
+				&& (*boardOfSquares[m_position.x + 1][m_position.y + yOffset]).getTeam() != m_teamNum)
+		{
+			m_possibleMoves.push_back(sf::Vector2u(m_position.x + 1, m_position.y + yOffset));
+		}
+		if (boardOfSquares[m_position.x][m_position.y + yOffset].isEmpty())
+		{
+			m_possibleMoves.push_back(sf::Vector2u(m_position.x, m_position.y + yOffset));
 		}
 	}
-
-	if (squareEmpty)
-	{
-		m_possibleMoves.push_back((sf::Vector2u(m_position.x + m_direction.x, m_position.y + m_direction.y)));
-	}
-
 }
 
-Pawn::Pawn(const sf::Texture &texture, const sf::Vector2f &scale, const sf::Vector2u &position, const float &lengthOfSquare, uint8_t team, const sf::Vector2i &direction, const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces)
+Pawn::Pawn(const sf::Texture &texture, const sf::Vector2f &scale, const sf::Vector2u &position, const float &lengthOfSquare, uint8_t team, const sf::Vector2i &direction, const std::array<std::array<BoardSquare, 8>, 8> &boardOfSquares)
 	: Piece(texture, scale, position, lengthOfSquare, team)
 {
 #ifdef DEBUG
 	assert("Incorrect direction" && (direction.y || direction.x) && !(direction.y && direction.x) && direction.x >= -1 && direction.x <= 1 && direction.y >= -1 && direction.y <= 1);
 #endif
 	this->m_direction = direction;
-	calculatePossibleMoves(pieces);
+	calculatePossibleMoves(boardOfSquares);
 }
 
-bool Pawn::move(const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces, const sf::Vector2u &position, const float &lengthOfSquare)
+void Pawn::move(const std::array<std::array<BoardSquare, 8>, 8> &boardOfSquares, const sf::Vector2u &position, const float &lengthOfSquare)
 {
 	for (auto &i : m_possibleMoves)
 	{
@@ -55,10 +53,7 @@ bool Pawn::move(const std::vector<std::vector<std::unique_ptr<Piece>>> &pieces, 
 			this->m_position = position;
 			m_sprite.setPosition(position.x*lengthOfSquare, position.y*lengthOfSquare);
 			m_possibleMoves.clear();
-			calculatePossibleMoves(pieces);
-			return true;
+			calculatePossibleMoves(boardOfSquares);
 		}
 	}
-
-	return false;
 }

@@ -1,5 +1,5 @@
-#ifndef APP_HPP_
-#define APP_HPP_
+#ifndef APP_HPP
+#define APP_HPP
 #include <SFML/Graphics.hpp>
 #include <Game.hpp>
 #include <iostream>
@@ -12,4 +12,4 @@ public:
 	void run();
 };
 
-#endif // APP_HPP_
+#endif // APP_HPP

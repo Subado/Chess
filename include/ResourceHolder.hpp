@@ -1,5 +1,5 @@
-#ifndef RESOURCE_HOLDER_
-#define RESOURCE_HOLDER_
+#ifndef RESOURCE_HOLDER_HPP
+#define RESOURCE_HOLDER_HPP
 
 #include <SFML/Graphics/Texture.hpp>
 #include <stdexcept>
@@ -31,4 +31,4 @@ namespace Textures
 typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
 
 
-#endif // RESOURCE_HOLDER_
+#endif // RESOURCE_HOLDER_HPP

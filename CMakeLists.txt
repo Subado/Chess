@@ -13,7 +13,8 @@ set(SOURCE
 	src/Pawn.cpp
 	src/Piece.cpp
 	src/Game.cpp
-	src/App.cpp)
+	src/App.cpp
+	src/BoardSquare.cpp)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 

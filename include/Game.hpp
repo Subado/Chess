@@ -1,8 +1,9 @@
-#ifndef GAME_HPP_
-#define GAME_HPP_
+#ifndef GAME_HPP
+#define GAME_HPP
 
 #include <ResourceHolder.hpp>
 #include <SFML/Graphics.hpp>
+#include <BoardSquare.hpp>
 #include <Piece.hpp>
 #include <Pawn.hpp>
 #include <iostream>
@@ -13,14 +14,13 @@
 
 class Game
 {
-	std::vector<std::vector<char>> m_charBoard;
+	std::array<std::array<BoardSquare, 8>, 8> m_boardOfSquares;
 	TextureHolder m_textures;
 
 	sf::Sprite m_boardSprite;
 	sf::Sprite m_possibleMoveSprite;
 
-	std::vector<std::vector<std::unique_ptr<Piece>>> m_pieces;
-	std::unique_ptr<Piece> *m_selectedPiece;
+	BoardSquare *m_selectedSquare;
 
 	float m_lengthOfSquare;
 
@@ -30,4 +30,4 @@ public:
 	void draw(sf::RenderWindow &window);
 };
 
-#endif // GAME_HPP_
+#endif // GAME_HPP
