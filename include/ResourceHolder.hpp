@@ -4,7 +4,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <stdexcept>
 #include <cassert>
-#include <string>
 #include <memory>
 #include <map>
 
@@ -26,7 +25,25 @@ public:
 
 namespace Textures
 {
-	enum class ID { Board, PossibleMove, Pawn, Rook, Knight, Bishop, King, Queen};
+	enum class ID
+	{
+		WhitePawn,
+		WhiteKnight,
+		WhiteBishop,
+		WhiteRook,
+		WhiteQueen,
+		WhiteKing,
+
+		BlackPawn,
+		BlackKnight,
+		BlackBishop,
+		BlackRook,
+		BlackQueen,
+		BlackKing,
+
+		Board,
+		PossibleMove,
+	};
 }
 typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
 

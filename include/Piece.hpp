@@ -1,31 +1,48 @@
 #ifndef PIECE_HPP
 #define PIECE_HPP
 
-#include <SFML/Graphics.hpp>
-#include <BoardSquare.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <ResourceHolder.hpp>
+#include <SceneNode.hpp>
 #include <vector>
 #include <memory>
 
-class Piece
+class Piece : public SceneNode
 {
+public:
+	enum class Color
+	{
+		White,
+		Black,
+		Red,
+		Blue,
+		Green,
+		Yellow
+	};
+	enum class Type
+	{
+		Pawn,
+		Knight,
+		Bishop,
+		Rook,
+		Queen,
+		King
+	};
+
+
+	Piece(const TextureHolder &textures, uint8_t position, uint8_t team, Color color, Type type);
+
+	uint8_t getPosition() const { return m_position; }
+	uint8_t getTeam() const { return m_team; }
+
+	virtual ~Piece() { }
+
 protected:
 	sf::Sprite m_sprite;
-	sf::Vector2u m_position;
-	uint8_t m_teamNum;
-	std::vector<sf::Vector2u> m_possibleMoves;
+	uint8_t m_position;
+	uint8_t m_team;
 
-	virtual void calculatePossibleMoves(const std::array<std::array<BoardSquare, 8>, 8> &boardOfSquares) = 0;
-public:
-	Piece(const sf::Texture &texture, const sf::Vector2f &scale, const sf::Vector2u &position, const float &lengthOfSquare, uint8_t team);
-
-	const sf::Sprite &getSprite() const { return m_sprite; }
-	const sf::Vector2u &getPosition() const { return m_position; }
-	uint8_t getTeam() const { return m_teamNum; }
-	const std::vector<sf::Vector2u> &getPossibleMoves() const { return m_possibleMoves; };
-
-	virtual void move(const std::array<std::array<BoardSquare, 8>, 8> &boardOfSquares, const sf::Vector2u &position, const float &lengthOfSquare) = 0;
-
-	virtual ~Piece() {}
+	virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 
 #endif // PIECE_HPP

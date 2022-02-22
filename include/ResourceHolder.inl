@@ -28,7 +28,7 @@ Resource& ResourceHolder<Resource, Identifier>::get(Identifier id)
 {
 	auto found = m_resourceMap.find(id);
 #ifdef DEBUG
-	assert(found != m_resourceMap.end());
+	assert("Can not find resource with this id" && found != m_resourceMap.end());
 #endif
 
 	return *found->second;
@@ -39,7 +39,7 @@ const Resource& ResourceHolder<Resource, Identifier>::get(Identifier id) const
 {
 	auto found = m_resourceMap.find(id);
 #ifdef DEBUG
-	assert(found != m_resourceMap.end());
+	assert("Can not find resource with this id" && found != m_resourceMap.end());
 #endif
 
 	return *found->second;
@@ -50,6 +50,6 @@ void ResourceHolder<Resource, Identifier>::insertResource(Identifier id, std::un
 {
 	auto inserted = m_resourceMap.insert(std::make_pair(id, std::move(resource)));
 #ifdef DEBUG
-	assert(inserted.second);
+	assert("This id is occupied" && inserted.second);
 #endif
 }

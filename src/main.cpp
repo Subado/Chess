@@ -3,6 +3,8 @@
 
 #define DEBUG
 
+typedef uint64_t U64;
+
 int main()
 {
 	App app;

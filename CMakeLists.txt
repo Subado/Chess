@@ -5,16 +5,16 @@ set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -g")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall")
 
 
-
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules")
 
-set(SOURCE 
+set(SOURCE
 	src/main.cpp
 	src/Pawn.cpp
 	src/Piece.cpp
-	src/Game.cpp
 	src/App.cpp
-	src/BoardSquare.cpp)
+	src/SceneNode.cpp
+	src/SpriteNode.cpp
+	src/Scene.cpp)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 

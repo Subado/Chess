@@ -5,13 +5,11 @@
 
 class Pawn : public Piece
 {
-	sf::Vector2i m_direction;
-
-	void calculatePossibleMoves(const std::array<std::array<BoardSquare, 8>, 8> &boardOfSquares) override;
 public:
-	Pawn(const sf::Texture &texture, const sf::Vector2f &scale, const sf::Vector2u &position, const float &lengthOfSquare, uint8_t team, const sf::Vector2i &direction, const std::array<std::array<BoardSquare, 8>, 8> &boardOfSquares);
+	Pawn(const TextureHolder &textures, uint8_t position, uint8_t team, Color color, int direction);
 
-	void move(const std::array<std::array<BoardSquare, 8>, 8> &boardOfSquares, const sf::Vector2u &position, const float &lengthOfSquare) override;
+protected:
+	int m_direction;
 };
 
 #endif // PAWN_HPP
