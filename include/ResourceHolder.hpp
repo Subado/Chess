@@ -11,41 +11,18 @@ template <typename Resource, typename Identifier>
 class ResourceHolder
 {
 	std::map<Identifier, std::unique_ptr<Resource>> m_resourceMap;
+
+	void insertResource(Identifier id, std::unique_ptr<Resource> resource);
+
 public:
 	void load(Identifier id, const std::string& filename);
 	template <typename Parameter>
 	void load(Identifier id, const std::string& filename, const Parameter &secondParam);
+
 	Resource& get(Identifier id);
 	const Resource& get(Identifier id) const;
-	void insertResource(Identifier id, std::unique_ptr<Resource> resource);
 };
 
 #include <ResourceHolder.inl>
-
-
-namespace Textures
-{
-	enum class ID
-	{
-		WhitePawn,
-		WhiteKnight,
-		WhiteBishop,
-		WhiteRook,
-		WhiteQueen,
-		WhiteKing,
-
-		BlackPawn,
-		BlackKnight,
-		BlackBishop,
-		BlackRook,
-		BlackQueen,
-		BlackKing,
-
-		Board,
-		PossibleMove,
-	};
-}
-typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
-
 
 #endif // RESOURCE_HOLDER_HPP

@@ -2,6 +2,7 @@
 #define PIECE_HPP
 
 #include <SFML/Graphics/Sprite.hpp>
+#include <ResourceIdentifiers.hpp>
 #include <ResourceHolder.hpp>
 #include <SceneNode.hpp>
 #include <vector>
@@ -19,6 +20,7 @@ public:
 		Green,
 		Yellow
 	};
+
 	enum class Type
 	{
 		Pawn,
@@ -32,17 +34,17 @@ public:
 
 	Piece(const TextureHolder &textures, uint8_t position, uint8_t team, Color color, Type type);
 
-	uint8_t getPosition() const { return m_position; }
-	uint8_t getTeam() const { return m_team; }
+	uint8_t getPosition() const;
+	uint8_t getTeam() const;
 
-	virtual ~Piece() { }
+	virtual ~Piece();
 
 protected:
+	virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
+
 	sf::Sprite m_sprite;
 	uint8_t m_position;
 	uint8_t m_team;
-
-	virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 
 #endif // PIECE_HPP

@@ -3,7 +3,7 @@
 
 App::App()
 	: m_window(sf::VideoMode(700, 700), "Chess on C++"),
-	m_scene(m_window)
+	m_world(m_window)
 {
 	m_window.setFramerateLimit(60);
 }
@@ -11,8 +11,8 @@ App::App()
 void App::run()
 {
 	sf::Clock clock;
-	sf::Time timePerFrame = sf::seconds(1.f/60);
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	const sf::Time timePerFrame = sf::seconds(1.f/60);
 
     while (m_window.isOpen())
     {
@@ -45,12 +45,12 @@ void App::handleEvents()
 
 void App::update(sf::Time elapsedTime)
 {
-	m_scene.update(elapsedTime);
+	m_world.update(elapsedTime);
 }
 
 void App::render()
 {
 	m_window.clear();
-	m_scene.draw(m_window);
+	m_world.draw(m_window);
 	m_window.display();
 }

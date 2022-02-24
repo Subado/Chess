@@ -70,6 +70,21 @@ Piece::Piece(const TextureHolder &textures, uint8_t position, uint8_t team, Colo
 	m_sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
+uint8_t Piece::getPosition() const
+{
+	return m_position;
+}
+
+
+uint8_t Piece::getTeam() const
+{
+	return m_team;
+}
+
+Piece::~Piece()
+{
+}
+
 
 void Piece::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const
 {

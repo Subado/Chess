@@ -12,9 +12,19 @@
 class SceneNode : public sf::Transformable, public sf::Drawable,
 				  private sf::NonCopyable
 {
-	SceneNode *m_parent;
-	std::vector<std::unique_ptr<SceneNode>> m_children;
+public:
+	typedef std::unique_ptr<SceneNode> Ptr;
 
+	SceneNode();
+
+	void attachChild(Ptr child);
+	Ptr detachChild(const SceneNode& node);
+
+	void update(sf::Time dt);
+
+	sf::Transform getWorldTransform() const;
+	sf::Vector2f getWorldPosition() const;
+private:
 	virtual void updateCurrent(sf::Time dt);
 	void updateChildren(sf::Time dt);
 
@@ -22,16 +32,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable,
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 	void drawChildren(sf::RenderTarget& target, sf::RenderStates states) const;
 
-public:
-	SceneNode();
-
-	void attachChild(std::unique_ptr<SceneNode> child);
-	std::unique_ptr<SceneNode> detachChild(const SceneNode& node);
-
-	void update(sf::Time dt);
-
-	sf::Transform getWorldTransform() const;
-	sf::Vector2f getWorldPosition() const;
+	SceneNode *m_parent;
+	std::vector<Ptr> m_children;
 };
 
 #endif // SCENE_NODE_HPP

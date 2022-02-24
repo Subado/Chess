@@ -7,13 +7,14 @@
 
 class SpriteNode : public SceneNode
 {
-	sf::Sprite m_sprite;
-	virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
-
 public:
 	explicit SpriteNode(const sf::Texture &texture);
 	SpriteNode(const sf::Texture &texture, const sf::IntRect &rect);
 
+private:
+	virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
+
+	sf::Sprite m_sprite;
 };
 
 #endif // SPRITE_NODE_HPP
