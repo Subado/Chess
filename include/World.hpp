@@ -31,8 +31,6 @@ private:
 	SceneNode m_sceneGraph;
 	std::array<SceneNode*, LayerCount>	m_sceneLayers;
 
-	sf::Vector2f m_scaleFactors;
-
 	sf::View m_sceneView;
 };
 

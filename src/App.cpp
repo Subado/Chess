@@ -1,56 +1,77 @@
-#include <App.hpp>
+#include <StateIdentifiers.hpp>
 #include <iostream>
+#include <App.hpp>
+
+const sf::Time App::timePerFrame = sf::seconds(1.f/60);
 
 App::App()
 	: m_window(sf::VideoMode(700, 700), "Chess on C++"),
-	m_world(m_window)
+	m_stateStack(State::Context(m_window, m_textures, m_fonts, m_player))
 {
 	m_window.setFramerateLimit(60);
+
+	m_fonts.load(Fonts::ID::Main, "assets/fonts/Hack.ttf");
+
+	registerStates();
+	m_stateStack.pushState(States::ID::Title);
 }
 
 void App::run()
 {
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	const sf::Time timePerFrame = sf::seconds(1.f/60);
+
 
     while (m_window.isOpen())
     {
 		for (timeSinceLastUpdate += clock.restart(); timeSinceLastUpdate > timePerFrame; timeSinceLastUpdate -= timePerFrame)
 		{
-			handleEvents();
+			handleInput();
 			update(timePerFrame);
+
+			if (m_stateStack.isEmpty())
+			{
+				m_window.close();
+			}
 		}
 
 		render();
 	}
 }
 
-void App::handleEvents()
+void App::handleInput()
 {
 	sf::Event event;
 	while (m_window.pollEvent(event))
 	{
-		switch (event.type)
+		m_stateStack.handleEvent(event);
+
+		if (event.type == sf::Event::Closed)
 		{
-			case sf::Event::Closed:
-				m_window.close();
-				break;
-			case sf::Event::MouseButtonPressed:
-			default:
-				break;
+			m_window.close();
 		}
 	}
 }
 
 void App::update(sf::Time elapsedTime)
 {
-	m_world.update(elapsedTime);
+	m_stateStack.update(elapsedTime);
 }
 
 void App::render()
 {
 	m_window.clear();
-	m_world.draw(m_window);
+
+	m_stateStack.draw();
+	m_window.setView(m_window.getDefaultView());
+
 	m_window.display();
+}
+
+void App::registerStates()
+{
+	m_stateStack.registerState<TitleState>(States::ID::Title);
+	m_stateStack.registerState<MenuState>(States::ID::Menu);
+	m_stateStack.registerState<GameState>(States::ID::Game);
+	m_stateStack.registerState<PauseState>(States::ID::Pause);
 }

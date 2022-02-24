@@ -1,9 +1,12 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <ResourceIdentifiers.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Time.hpp>
 #include <StateIdentifiers.hpp>
+#include <Player.hpp>
 
 class StateStack;
 
@@ -14,7 +17,12 @@ public:
 
 	struct Context
 	{
+		Context(sf::RenderWindow &window, TextureHolder &textures, FontHolder &fonts, Player &player);
 
+		sf::RenderWindow *window;
+		TextureHolder *textures;
+		FontHolder *fonts;
+		Player *player;
 	};
 
 	State(StateStack& stack, Context context);
