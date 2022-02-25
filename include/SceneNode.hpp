@@ -5,7 +5,8 @@
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/System/Time.hpp>
-#include <SFML/Graphics/Transform.hpp>
+#include <Category.hpp>
+#include <Command.hpp>
 #include <vector>
 #include <memory>
 
@@ -22,8 +23,12 @@ public:
 
 	void update(sf::Time dt);
 
-	sf::Transform getWorldTransform() const;
 	sf::Vector2f getWorldPosition() const;
+	sf::Transform getWorldTransform() const;
+
+	
+	virtual Category::Type getCategory() const;
+	void onCommand(const Command &command, sf::Time dt);
 private:
 	virtual void updateCurrent(sf::Time dt);
 	void updateChildren(sf::Time dt);

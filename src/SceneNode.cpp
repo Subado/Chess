@@ -32,6 +32,11 @@ void SceneNode::update(sf::Time dt)
 	updateChildren(dt);
 }
 
+sf::Vector2f SceneNode::getWorldPosition() const
+{
+	return getWorldTransform() * sf::Vector2f();
+}
+
 sf::Transform SceneNode::getWorldTransform() const
 {
 	sf::Transform transform = sf::Transform::Identity;
@@ -45,9 +50,22 @@ sf::Transform SceneNode::getWorldTransform() const
 	return transform;
 }
 
-sf::Vector2f SceneNode::getWorldPosition() const
+Category::Type SceneNode::getCategory() const
 {
-	return getWorldTransform() * sf::Vector2f();
+	return Category::Type::Scene;
+}
+
+void SceneNode::onCommand(const Command &command, sf::Time dt)
+{
+	if (static_cast<unsigned>(command.category) & static_cast<unsigned>(getCategory()))
+	{
+		command.action(*this, dt);
+	}
+
+	for (Ptr &child : m_children)
+	{
+		child->onCommand(command, dt);
+	}
 }
 
 void SceneNode::updateCurrent(sf::Time dt)

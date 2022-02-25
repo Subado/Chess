@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <ResourceIdentifiers.hpp>
 #include <ResourceHolder.hpp>
+#include <CommandQueue.hpp>
 #include <SceneNode.hpp>
 #include <array>
 
@@ -12,7 +13,9 @@ class World : private sf::NonCopyable
 public:
 	explicit World(sf::RenderWindow& window);
 	void update(sf::Time dt);
-	void draw(sf::RenderWindow &window);
+	void draw();
+
+	CommandQueue &getCommandQueue();
 
 private:
 	void loadTextures();
@@ -26,12 +29,14 @@ private:
 	};
 
 	sf::RenderWindow& m_window;
+	sf::View m_worldView;
 	TextureHolder m_textures;
 
 	SceneNode m_sceneGraph;
 	std::array<SceneNode*, LayerCount>	m_sceneLayers;
+	CommandQueue m_commandQueue;
 
-	sf::View m_sceneView;
+	float m_lengthOfSquare;
 };
 
 #endif // WORLD_HPP

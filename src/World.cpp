@@ -6,7 +6,7 @@
 
 World::World(sf::RenderWindow &window)
 	: m_window(window),
-	m_sceneView(m_window.getDefaultView())
+	m_worldView(m_window.getDefaultView())
 {
 	loadTextures();
 	buildWorld();
@@ -14,13 +14,22 @@ World::World(sf::RenderWindow &window)
 
 void World::update(sf::Time dt)
 {
+	while (!m_commandQueue.isEmpty())
+	{
+		m_sceneGraph.onCommand(m_commandQueue.pop(), dt);
+	}
 
 	m_sceneGraph.update(dt);
 }
 
-void World::draw(sf::RenderWindow &window)
+void World::draw()
 {
-	window.draw(m_sceneGraph);
+	m_window.draw(m_sceneGraph);
+}
+
+CommandQueue &World::getCommandQueue()
+{
+	return m_commandQueue;
 }
 
 void World::loadTextures()
@@ -45,8 +54,8 @@ void World::buildWorld()
 	}
 
 	std::unique_ptr<SpriteNode> board(new SpriteNode(m_textures.get(Textures::ID::Board)));
-	
-	float m_lengthOfSquare = m_window.getSize().x / 8.f;
+
+	m_lengthOfSquare = m_window.getSize().x / 8.f;
 
 	m_sceneLayers[Background]->attachChild(std::move(board));
 
