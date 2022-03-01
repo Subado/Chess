@@ -2,8 +2,8 @@
 #define PIECE_HPP
 
 #include <SFML/Graphics/Sprite.hpp>
-#include <ResourceIdentifiers.hpp>
 #include <ResourceHolder.hpp>
+#include <ResourceIDs.hpp>
 #include <SceneNode.hpp>
 #include <vector>
 #include <memory>

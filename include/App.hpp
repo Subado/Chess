@@ -1,9 +1,9 @@
 #ifndef APP_HPP
 #define APP_HPP
 
-#include <ResourceIdentifiers.hpp>
 #include <ResourceHolder.hpp>
 #include <SFML/Graphics.hpp>
+#include <ResourceIDs.hpp>
 #include <StateStack.hpp>
 
 class App

@@ -1,4 +1,6 @@
-#include <StateIdentifiers.hpp>
+#include <TitleState.hpp>
+#include <GameState.hpp>
+#include <StateIDs.hpp>
 #include <iostream>
 #include <App.hpp>
 
@@ -11,6 +13,7 @@ App::App()
 	m_window.setFramerateLimit(60);
 
 	m_fonts.load(Fonts::ID::Main, "assets/fonts/Hack.ttf");
+	m_textures.load(Textures::ID::TitleScreen, "assets/images/title-screen.png");
 
 	registerStates();
 	m_stateStack.pushState(States::ID::Title);

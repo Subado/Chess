@@ -18,7 +18,7 @@ public:
 	};
 
 	explicit StateStack(State::Context context);
-	
+
 	template <typename T>
 	void registerState(States::ID stateID);
 

@@ -2,8 +2,8 @@
 #include <cassert>
 
 StateStack::StateStack(State::Context context)
+	: m_context(context)
 {
-
 }
 
 void StateStack::update(sf::Time dt)

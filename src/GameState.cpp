@@ -1,20 +1,20 @@
-#include <StateIdentifiers.hpp>
+#include <StateIDs.hpp>
 #include <CommandQueue.hpp>
 #include <GameState.hpp>
 
-GameSate::GameSate(StateStack &stack, State::Context context)
+GameState::GameState(StateStack &stack, State::Context context)
 	: State(stack, context),
 	m_world(*context.window),
 	m_player(*context.player)
 {
 }
 
-void GameSate::draw()
+void GameState::draw()
 {
 	m_world.draw();
 }
 
-bool GameSate::update(sf::Time elapsedTime)
+bool GameState::update(sf::Time elapsedTime)
 {
 	m_world.update(elapsedTime);
 
@@ -25,7 +25,7 @@ bool GameSate::update(sf::Time elapsedTime)
 }
 
 
-bool GameSate::handleEvent(const sf::Event &event)
+bool GameState::handleEvent(const sf::Event &event)
 {
 	CommandQueue &commands = m_world.getCommandQueue();
 	m_player.handleEvent(event, commands);

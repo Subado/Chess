@@ -2,9 +2,9 @@
 #define WORLD_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <ResourceIdentifiers.hpp>
 #include <ResourceHolder.hpp>
 #include <CommandQueue.hpp>
+#include <ResourceIDs.hpp>
 #include <SceneNode.hpp>
 #include <array>
 

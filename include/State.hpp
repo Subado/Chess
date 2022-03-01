@@ -2,10 +2,10 @@
 #define STATE_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <ResourceIdentifiers.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Time.hpp>
-#include <StateIdentifiers.hpp>
+#include <ResourceIDs.hpp>
+#include <StateIDs.hpp>
 #include <Player.hpp>
 
 class StateStack;

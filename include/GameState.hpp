@@ -5,10 +5,10 @@
 #include <World.hpp>
 #include <State.hpp>
 
-class GameSate : public State
+class GameState : public State
 {
 public:
-	GameSate(StateStack& stack, State::Context context);
+	GameState(StateStack& stack, State::Context context);
 
 	virtual void draw();
 	virtual bool update(sf::Time elapsedTime);
