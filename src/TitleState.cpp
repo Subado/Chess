@@ -9,7 +9,8 @@ TitleState::TitleState(StateStack& stack, Context context)
 
 	m_text.setFont(context.fonts->get(Fonts::ID::Main));
 	m_text.setString("Press any key to start");
-
+	m_text.setOutlineColor(sf::Color(0xECEFF4));
+	m_text.setFillColor(sf::Color(0xECEFF4));
 	centerOrigin<sf::Text>(m_text);
 	m_text.setPosition(context.window->getView().getSize() / 2.f);
 }
@@ -39,11 +40,13 @@ bool TitleState::update(sf::Time dt)
 	return true;
 }
 
+#include <iostream>
 bool TitleState::handleEvent(const sf::Event &event)
 {
 	if (event.type == sf::Event::KeyPressed || event.type == sf::Event::MouseButtonPressed)
 	{
 		requestStackPop();
+		std::cout << "meow\n";
 		requestStackPush(States::ID::Menu);
 	}
 

@@ -33,7 +33,7 @@ void StateStack::handleEvent(const sf::Event &event)
 	{
 		if (!(*i)->handleEvent(event))
 		{
-			return;
+			break;
 		}
 	}
 

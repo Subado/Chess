@@ -15,7 +15,7 @@ public:
 
 
 private:
-	enum class OptionName
+	enum class OptionNames
 	{
 		Play,
 		Exit
@@ -24,5 +24,5 @@ private:
 	sf::Sprite m_backgroundSprite;
 
 	std::vector<sf::Text> m_options;
-	OptionName m_optionIndex;
+	size_t m_optionIndex;
 };

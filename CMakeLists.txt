@@ -14,7 +14,16 @@ set(SOURCE
 	src/App.cpp
 	src/SceneNode.cpp
 	src/SpriteNode.cpp
-	src/Scene.cpp)
+	src/World.cpp
+	src/Command.cpp
+	src/CommandQueue.cpp
+	src/Player.cpp
+	src/GameState.cpp
+	src/MenuState.cpp
+	src/TitleState.cpp
+	src/State.cpp
+	src/StateStack.cpp
+	src/Utility.cpp)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 

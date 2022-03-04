@@ -12,8 +12,7 @@ Player::Player()
 	for (auto &pair : m_actionBinding)
 	{
 		pair.second.category = Category::Type::PlayerPiece;
-	}
-}
+	} }
 
 void Player::handleRealtimeInput(CommandQueue &commands)
 {
